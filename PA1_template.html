@@ -137,7 +137,7 @@ time_steps[which.max(time_steps$steps),c(&quot;interval&quot;)]</code></pre>
 <h2>Imputing missing values</h2>
 <ul>
 <li>Find the rows with missing values</li>
-<li>Replace those values with the medians for those intervals from the other days</li>
+<li>Replace those values with the means for those intervals from the other days</li>
 <li>Replot the steps by day and steps by interval</li>
 <li>Re-calculate the mean and median steps by day</li>
 </ul>
@@ -145,7 +145,8 @@ time_steps[which.max(time_steps$steps),c(&quot;interval&quot;)]</code></pre>
 nullrows &lt;- nrow(ActData[is.na(ActData$steps),])
 print(nullrows)</code></pre>
 <pre><code>## [1] 2304</code></pre>
-<pre class="r"><code>#Replace thos with the averages for those intervals from the other days
+<pre class="r"><code>#Replace null values with the averages for those intervals from the other days
+#Start by merging in the averages by interval
 ActData_Clean &lt;- merge(ActData,time_steps,by='interval')
 
 #Clean the new column and generate the merged column

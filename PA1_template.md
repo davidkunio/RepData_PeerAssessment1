@@ -100,7 +100,7 @@ time_steps[which.max(time_steps$steps),c("interval")]
 ```
 ## Imputing missing values
 - Find the rows with missing values
-- Replace those values with the medians for those intervals from the other days
+- Replace those values with the means for those intervals from the other days
 - Replot the steps by day and steps by interval
 - Re-calculate the mean and median steps by day
 
@@ -115,7 +115,8 @@ print(nullrows)
 ```
 
 ```r
-#Replace thos with the averages for those intervals from the other days
+#Replace null values with the averages for those intervals from the other days
+#Start by merging in the averages by interval
 ActData_Clean <- merge(ActData,time_steps,by='interval')
 
 #Clean the new column and generate the merged column
