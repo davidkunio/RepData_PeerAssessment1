@@ -47,13 +47,18 @@ print(median_daily_steps)
 - Plot the line chart
 - Find the max point
 ```{r}
+#Calculate the average steps by time interval
 time_steps <- aggregate(steps~interval,data=ActData,FUN=mean,na.rm=TRUE)
 
+#Plot the Average number of steps by time interval
 plot(x=time_steps$interval,y=time_steps$steps,type = "l",main="Average Steps by Interval",xlab = "Interval",ylab="Avg Steps")
 
+#Find the number of steps in the max interval
 max_steps <- max(time_steps$steps)
-
 print(max_steps)
+
+#Max Interval
+time_steps[which.max(time_steps$steps),c("interval")]
 ```
 ## Imputing missing values
 - Find the rows with missing values
@@ -109,5 +114,19 @@ print(median_daily_steps)
 - Attach a day of the week to the Clean Dataset
 - Calculate a Weekday/Weekend Factor
 - Plot Line plots for weekday and weekend
+```{r}
+#Attach the weeday
+ActData_Clean$weekday <- weekdays(ActData_Clean$date)
 
+#Create Weekend Factor
+ActData_Clean$weekend <- as.factor(ifelse(ActData_Clean$weekday %in% c("Saturday","Sunday"), 1, 0)) 
+
+#Calculate Weekday and Weekend Average Steps by Interval
+time_steps_weekday <- aggregate(merged_steps~interval,data=subset(ActData_Clean,weekend==0),FUN=mean,na.rm=TRUE)
+time_steps_weekend <- aggregate(merged_steps~interval,data=subset(ActData_Clean,weekend==1),FUN=mean,na.rm=TRUE)
+
+par(mfrow=c(2,1))
+plot(x=time_steps_weekday$interval,y=time_steps_weekday$merged_steps,type = "l",main="Average Steps by Interval - Weekday",xlab = "Interval",ylab="Avg Steps")
+plot(x=time_steps_weekend$interval,y=time_steps_weekend$merged_steps,type = "l",main="Average Steps by Interval - Weekend",xlab = "Interval",ylab="Avg Steps")
+```
 
